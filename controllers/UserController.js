@@ -16,7 +16,7 @@ const UserController = {
                 { $push: { userId: user._id } },
                 { new: true }
             )
-            res.status(201).send(user);
+            res.status(201).send({ msg: "Usuario creado con exito", user });
         } catch (error) {
             console.error(error);
             res.status(500).send(error);
