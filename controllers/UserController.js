@@ -11,15 +11,9 @@ const UserController = {
         try {
             const password = await bcrypt.hash(req.body.password, 10);
             const user = await User.create({ ...req.body, password, role: "user" });
-            await Post.findByIdAndUpdate(
-                req.user._id,
-                { $push: { userId: user._id } },
-                { new: true }
-            )
             res.status(201).send({ msg: "Usuario creado con exito", user });
         } catch (error) {
             console.error(error);
-            res.status(500).send(error);
             next(error);
         }
     },

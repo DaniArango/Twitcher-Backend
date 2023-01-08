@@ -4,9 +4,9 @@ require("dotenv").config();
 const PORT = process.env.PORT || 8080;
 const { dbConnection } = require("./config/config")
 const {typeError} = require ("./middlewares/error")
+const cors = require('cors');
 
-
-app.use(express.json())
+app.use(express.json(),cors())
 
 
 app.use('/posts', require('./routes/posts'));
