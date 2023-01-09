@@ -9,11 +9,12 @@ const PostController = {
         req.user._id,
         { $push: { postIds: post._id } },
         { new: true }
-      )
+      );
       res.status(201).send({ msg: "Publicación realizada con exito" });
     } catch (error) {
-      console.error(error)
-      res.status(400)
+      console.error(error);
+      res
+        .status(400)
         .send({ msg: "No es posible crear la publicación", error });
     }
   },
@@ -36,11 +37,9 @@ const PostController = {
 
   async update(req, res) {
     try {
-      const post = await Post.findByIdAndUpdate(
-        req.params._id,
-        req.body,
-        { new: true }
-      );
+      const post = await Post.findByIdAndUpdate(req.params._id, req.body, {
+        new: true,
+      });
       res.send({ msg: "Publicación actualizada con exito", post });
     } catch (error) {
       console.error(error);
@@ -64,13 +63,14 @@ const PostController = {
   async getById(req, res) {
     try {
       const post = await Post.findById(req.params._id);
-      res.send({ post, msg: "Publicación encontrada" });
+      
+      res.send(post);
     } catch (error) {
       console.error(error);
-      res.status(500).send({
-        msg: "No ha sido posible ver su publicación",
-        error,
-      });
+
+      res
+        .status(500)
+        .send({ message: "Ha habido un problema al obtener el Post" });
     }
   },
   async getPostByName(req, res) {
@@ -90,7 +90,11 @@ const PostController = {
     try {
       const post = await Post.findByIdAndUpdate(
         req.params._id,
-        { $push: { comments: { comment: req.body.comment, userId: req.user._id } } },
+        {
+          $push: {
+            comments: { comment: req.body.comment, userId: req.user._id },
+          },
+        },
         { new: true }
       );
       res.send({ msg: "comentario creado", post });
@@ -106,8 +110,7 @@ const PostController = {
         { $push: { likes: req.user._id } },
         { new: true }
       );
-      await User.findByIdAndUpdate
-        (req.user._id, { new: true });
+      await User.findByIdAndUpdate(req.user._id, { new: true });
       res.send(post);
     } catch (error) {
       console.error(error);
@@ -128,8 +131,5 @@ const PostController = {
     }
   },
 };
-
-
-
 
 module.exports = PostController;

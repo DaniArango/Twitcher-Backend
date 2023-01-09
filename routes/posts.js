@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.post("/createPost", authentication,  PostController.createPost)
 router.get("/getAllpost",PostController.getAll)
-router.get("/getPostByName/:name",PostController.getPostByName)
+router.get("/getPostByName/:title",PostController.getPostByName)
 router.get("/getById/:_id",PostController.getById)
 router.put("/update/:_id",authentication,isAuthor, PostController.update)
 router.delete("/deletePost/:_id",authentication, PostController.delete)
