@@ -10,6 +10,10 @@ const PostController = {
         { $push: { postIds: post._id } },
         { new: true }
       );
+      await Post.findByIdAndUpdate(
+        post._id,
+        {$push:{userId:req.user._id}}
+      )
       res.status(201).send({ msg: "Publicación realizada con exito" });
     } catch (error) {
       console.error(error);
@@ -62,8 +66,7 @@ const PostController = {
 
   async getById(req, res) {
     try {
-      const post = await Post.findById(req.params._id);
-      
+      const post = await Post.findById(req.params._id).populate("userId");
       res.send(post);
     } catch (error) {
       console.error(error);

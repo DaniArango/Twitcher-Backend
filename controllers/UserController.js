@@ -34,7 +34,13 @@ const UserController = {
         try {
             const user = await User.findOne({
                 email: req.body.email,
-            });
+            }).populate({
+                path: "postIds",
+                populate: {
+                    path: "comments",
+
+                },
+            });;
             if (!user) {
                 return res.status(400).send("Correo o contraseña incorrectos");
             }
